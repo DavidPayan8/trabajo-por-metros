@@ -42,7 +42,7 @@ export function Estadisticas() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 ios-blur bg-surface/80 border-b border-outline-variant/30">
+      <header className="sticky top-0 z-50 ios-blur bg-surface/80 border-b border-outline-variant/30 safe-pt">
         <div className="flex justify-between items-center px-margin-main h-touch-target-min">
           <h1 className="text-headline-md-mobile font-bold text-ios-blue">Estadísticas</h1>
         </div>

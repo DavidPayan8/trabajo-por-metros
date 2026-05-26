@@ -9,6 +9,8 @@ import { TrabajoDetalle } from './pages/TrabajoDetalle'
 import { Historial } from './pages/Historial'
 import { Estadisticas } from './pages/Estadisticas'
 import { InstallBanner } from './components/InstallBanner'
+import { UpdateBanner } from './components/UpdateBanner'
+import { NetworkBanner } from './components/NetworkBanner'
 
 function AppLayout() {
   const tabClass = ({ isActive }: { isActive: boolean }) =>
@@ -17,6 +19,8 @@ function AppLayout() {
 
   return (
     <div className="flex flex-col min-h-dvh">
+      <UpdateBanner />
+      <NetworkBanner />
       <InstallBanner />
       <main className="flex-1 pb-[calc(64px+env(safe-area-inset-bottom))] max-w-[600px] mx-auto w-full">
         <Routes>

@@ -123,16 +123,18 @@ export function TrabajoDetalle() {
   return (
     <>
       {/* Header */}
-      <header className="sticky top-0 z-50 ios-blur bg-surface/80 border-b border-outline-variant/30 h-touch-target-min flex items-center px-margin-main justify-between">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center text-ios-blue active:opacity-50 transition-opacity"
-        >
-          <span className="material-symbols-outlined">chevron_left</span>
-          <span className="text-body-lg">Trabajos</span>
-        </button>
-        <h1 className="text-headline-md text-on-surface">Detalle</h1>
-        <div className="w-20" />
+      <header className="sticky top-0 z-50 ios-blur bg-surface/80 border-b border-outline-variant/30 safe-pt flex flex-col justify-end px-margin-main">
+        <div className="flex items-center justify-between h-touch-target-min">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center text-ios-blue active:opacity-50 transition-opacity"
+          >
+            <span className="material-symbols-outlined">chevron_left</span>
+            <span className="text-body-lg">Trabajos</span>
+          </button>
+          <h1 className="text-headline-md text-on-surface">Detalle</h1>
+          <div className="w-20" />
+        </div>
       </header>
 
       <main className="pb-[160px]">
