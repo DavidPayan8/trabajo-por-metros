@@ -17,8 +17,8 @@ export default defineConfig({
         'icon-maskable-512.png',
       ],
       manifest: {
-        name: 'TrabajoPorMetros',
-        short_name: 'Metros',
+        name: 'Planificador',
+        short_name: 'Planificador',
         description: 'Gestión de cobros por metros lineales',
         theme_color: '#007AFF',
         background_color: '#F2F2F7',

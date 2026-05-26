@@ -16,7 +16,7 @@ export function InstallBanner() {
           <div className="bg-white border border-black/10 rounded-2xl shadow-lg px-4 py-3 flex items-center gap-3">
             <img src="/icon-192.png" alt="Metros" className="w-10 h-10 rounded-xl shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-body-lg font-semibold text-charcoal-text leading-tight">Instalar Metros</p>
+              <p className="text-body-lg font-semibold text-charcoal-text leading-tight">Instalar Planificador</p>
               <p className="text-label-md text-ios-gray">Accede más rápido desde tu pantalla de inicio</p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
