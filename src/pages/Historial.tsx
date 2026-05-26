@@ -52,23 +52,23 @@ export function Historial() {
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex flex-col gap-1">
-                <label className="text-label-md text-ios-gray ml-1">Desde</label>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between min-h-[44px] px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl">
+                <label className="text-body-md text-ios-gray shrink-0 mr-3">Desde</label>
                 <input
                   type="date"
                   value={desde}
                   onChange={(e) => setDesde(e.target.value)}
-                  className="w-full min-h-[44px] px-3 bg-surface-container-low border border-outline-variant/30 rounded-xl text-body-md text-charcoal-text focus:outline-none focus:border-ios-blue"
+                  className="flex-1 text-body-md text-charcoal-text text-right bg-transparent focus:outline-none"
                 />
               </div>
-              <div className="flex flex-col gap-1">
-                <label className="text-label-md text-ios-gray ml-1">Hasta</label>
+              <div className="flex items-center justify-between min-h-[44px] px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl">
+                <label className="text-body-md text-ios-gray shrink-0 mr-3">Hasta</label>
                 <input
                   type="date"
                   value={hasta}
                   onChange={(e) => setHasta(e.target.value)}
-                  className="w-full min-h-[44px] px-3 bg-surface-container-low border border-outline-variant/30 rounded-xl text-body-md text-charcoal-text focus:outline-none focus:border-ios-blue"
+                  className="flex-1 text-body-md text-charcoal-text text-right bg-transparent focus:outline-none"
                 />
               </div>
             </div>
