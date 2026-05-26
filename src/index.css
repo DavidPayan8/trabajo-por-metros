@@ -38,6 +38,9 @@
   .safe-pb {
     padding-bottom: env(safe-area-inset-bottom);
   }
+  .safe-pt {
+    padding-top: env(safe-area-inset-top);
+  }
   .ios-active:active {
     background-color: #E5E5EA;
     transform: scale(0.98);

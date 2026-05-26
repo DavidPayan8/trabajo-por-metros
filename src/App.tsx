@@ -8,6 +8,7 @@ import { Trabajos } from './pages/Trabajos'
 import { TrabajoDetalle } from './pages/TrabajoDetalle'
 import { Historial } from './pages/Historial'
 import { Estadisticas } from './pages/Estadisticas'
+import { InstallBanner } from './components/InstallBanner'
 
 function AppLayout() {
   const tabClass = ({ isActive }: { isActive: boolean }) =>
@@ -16,6 +17,7 @@ function AppLayout() {
 
   return (
     <div className="flex flex-col min-h-dvh">
+      <InstallBanner />
       <main className="flex-1 pb-[calc(64px+env(safe-area-inset-bottom))] max-w-[600px] mx-auto w-full">
         <Routes>
           <Route path="/" element={<Navigate to="/trabajos" replace />} />
