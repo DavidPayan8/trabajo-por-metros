@@ -3,7 +3,13 @@
     "allow": [
       "Bash(npm create *)",
       "Bash(npx tsc *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(git rm *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(dir public *)",
+      "Bash(node scripts/generate-icons.mjs)"
     ]
   }
 }
