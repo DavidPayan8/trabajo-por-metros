@@ -1,6 +1,6 @@
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, ReferenceLine,
+  ResponsiveContainer,
 } from 'recharts'
 import { useEstadisticas } from '../hooks/useEstadisticas'
 
