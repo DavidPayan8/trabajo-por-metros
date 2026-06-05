@@ -83,6 +83,13 @@ export function Estadisticas() {
                 sub={stats.desviacionMedia >= 0 ? 'cobras de más' : 'cobras de menos'}
                 color={stats.desviacionMedia >= 0 ? 'text-ios-green' : 'text-ios-red'}
               />
+              {stats.diasMediosCobro !== null && (
+                <KpiCard
+                  label="Tiempo medio cobro"
+                  value={`${stats.diasMediosCobro} días`}
+                  sub="desde ejecución"
+                />
+              )}
             </div>
 
             {/* Cobros por mes */}

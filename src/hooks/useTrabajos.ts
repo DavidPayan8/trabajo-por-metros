@@ -25,11 +25,11 @@ export function useTrabajos(estado?: Trabajo['estado'] | Trabajo['estado'][]) {
 
   useEffect(() => { fetchTrabajos() }, [fetchTrabajos])
 
-  const createTrabajo = async (descripcion: string, ubicacion: string) => {
+  const createTrabajo = async (descripcion: string, ubicacion: string, fecha_ejecucion: string) => {
     const { data: { user } } = await supabase.auth.getUser()
     const { data, error } = await supabase
       .from('trabajo')
-      .insert({ descripcion, ubicacion, user_id: user!.id })
+      .insert({ descripcion, ubicacion, fecha_ejecucion, user_id: user!.id })
       .select()
       .single()
     if (error) throw error

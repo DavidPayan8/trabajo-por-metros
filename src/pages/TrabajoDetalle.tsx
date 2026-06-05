@@ -147,6 +147,10 @@ export function TrabajoDetalle() {
           </div>
           <h2 className="text-display text-charcoal-text leading-tight mb-1">{trabajo.ubicacion}</h2>
           <p className="text-body-md text-ios-gray">{trabajo.descripcion}</p>
+          <p className="text-label-md text-ios-gray mt-1 flex items-center gap-1">
+            <span className="material-symbols-outlined text-[14px]">calendar_today</span>
+            {new Date(trabajo.fecha_ejecucion + 'T00:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}
+          </p>
         </section>
 
         {/* Notas */}
@@ -207,6 +211,14 @@ export function TrabajoDetalle() {
                       {new Date(trabajo.fecha_cobro).toLocaleDateString('es-ES', {
                         day: 'numeric', month: 'short', year: 'numeric',
                       })}
+                    </span>
+                  </div>
+                )}
+                {trabajo.fecha_cobro && (
+                  <div className="flex justify-between text-body-md">
+                    <span className="text-ios-gray">Tiempo hasta cobro</span>
+                    <span className="text-charcoal-text">
+                      {Math.round((new Date(trabajo.fecha_cobro).getTime() - new Date(trabajo.fecha_ejecucion + 'T00:00:00').getTime()) / 86400000)} días
                     </span>
                   </div>
                 )}

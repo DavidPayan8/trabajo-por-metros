@@ -18,6 +18,7 @@ export interface Trabajo {
   total_calculado: number
   total_cobrado: number | null
   notas: string | null
+  fecha_ejecucion: string
   fecha_inicio: string
   fecha_cobro: string | null
   created_at: string

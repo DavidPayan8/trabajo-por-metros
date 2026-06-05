@@ -13,7 +13,8 @@ export interface Estadisticas {
   totalCalculado: number
   numTrabajos: number
   ticketMedio: number
-  desviacionMedia: number // % promedio (cobrado - calculado) / calculado * 100
+  desviacionMedia: number
+  diasMediosCobro: number | null
   porMes: MesData[]
 }
 
@@ -26,18 +27,18 @@ export function useEstadisticas() {
       setLoading(true)
       const { data } = await supabase
         .from('trabajo')
-        .select('total_cobrado, total_calculado, fecha_cobro')
+        .select('total_cobrado, total_calculado, fecha_cobro, fecha_ejecucion')
         .eq('estado', 'cobrado')
         .not('total_cobrado', 'is', null)
         .order('fecha_cobro', { ascending: true })
 
       if (!data || data.length === 0) {
-        setStats({ totalCobrado: 0, totalCalculado: 0, numTrabajos: 0, ticketMedio: 0, desviacionMedia: 0, porMes: [] })
+        setStats({ totalCobrado: 0, totalCalculado: 0, numTrabajos: 0, ticketMedio: 0, desviacionMedia: 0, diasMediosCobro: null, porMes: [] })
         setLoading(false)
         return
       }
 
-      const trabajos = data as Pick<Trabajo, 'total_cobrado' | 'total_calculado' | 'fecha_cobro'>[]
+      const trabajos = data as Pick<Trabajo, 'total_cobrado' | 'total_calculado' | 'fecha_cobro' | 'fecha_ejecucion'>[]
 
       const totalCobrado = trabajos.reduce((s, t) => s + Number(t.total_cobrado), 0)
       const totalCalculado = trabajos.reduce((s, t) => s + Number(t.total_calculado), 0)
@@ -66,7 +67,16 @@ export function useEstadisticas() {
         })
       }
 
-      setStats({ totalCobrado, totalCalculado, numTrabajos, ticketMedio, desviacionMedia, porMes })
+      const diasList = trabajos
+        .filter((t) => t.fecha_cobro && t.fecha_ejecucion)
+        .map((t) => Math.round(
+          (new Date(t.fecha_cobro!).getTime() - new Date(t.fecha_ejecucion + 'T00:00:00').getTime()) / 86400000
+        ))
+      const diasMediosCobro = diasList.length > 0
+        ? Math.round(diasList.reduce((s, d) => s + d, 0) / diasList.length)
+        : null
+
+      setStats({ totalCobrado, totalCalculado, numTrabajos, ticketMedio, desviacionMedia, diasMediosCobro, porMes })
       setLoading(false)
     }
 

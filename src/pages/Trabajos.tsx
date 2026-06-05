@@ -31,6 +31,7 @@ export function Trabajos() {
   const [showLocationPicker, setShowLocationPicker] = useState(false)
   const [descripcion, setDescripcion] = useState('')
   const [ubicacion, setUbicacion] = useState('')
+  const [fechaEjecucion, setFechaEjecucion] = useState(() => new Date().toISOString().slice(0, 10))
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -43,10 +44,11 @@ export function Trabajos() {
     setSaving(true)
     setError(null)
     try {
-      const trabajo = await createTrabajo(descripcion.trim(), ubicacion.trim())
+      const trabajo = await createTrabajo(descripcion.trim(), ubicacion.trim(), fechaEjecucion)
       setShowForm(false)
       setDescripcion('')
       setUbicacion('')
+      setFechaEjecucion(new Date().toISOString().slice(0, 10))
       navigate(`/trabajos/${trabajo.id}`)
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Error al crear')
@@ -99,6 +101,20 @@ export function Trabajos() {
                 }
                 <span className="material-symbols-outlined text-ios-gray text-[18px] shrink-0">chevron_right</span>
               </button>
+            </div>
+
+            {/* Fecha de ejecución */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-label-lg text-charcoal-text ml-1">Fecha de ejecución</label>
+              <div className="flex items-center min-h-[44px] px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl">
+                <span className="material-symbols-outlined text-ios-blue text-[20px] shrink-0 mr-3">calendar_today</span>
+                <input
+                  type="date"
+                  value={fechaEjecucion}
+                  onChange={(e) => setFechaEjecucion(e.target.value)}
+                  className="flex-1 text-body-md text-charcoal-text bg-transparent focus:outline-none"
+                />
+              </div>
             </div>
 
             {error && <p className="text-label-lg text-ios-red">{error}</p>}
