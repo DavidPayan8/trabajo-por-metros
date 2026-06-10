@@ -1,11 +1,14 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { supabase } from '../lib/supabase'
 import type { Trabajo, LineaTrabajo, TipoMetro } from '../types'
 
-export function useTrabajos(estado?: Trabajo['estado'] | Trabajo['estado'][]) {
+export function useTrabajos(estado?: Trabajo['estado'] | Trabajo['estado'][], filtro = '') {
   const [trabajos, setTrabajos] = useState<Trabajo[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const filtroRef = useRef(filtro)
+  filtroRef.current = filtro
 
   const estadoKey = JSON.stringify(estado)
 
@@ -17,13 +20,19 @@ export function useTrabajos(estado?: Trabajo['estado'] | Trabajo['estado'][]) {
       if (Array.isArray(estadoParsed)) query = query.in('estado', estadoParsed)
       else query = query.eq('estado', estadoParsed)
     }
+    const q = filtroRef.current.trim()
+    if (q) query = query.or(`descripcion.ilike.%${q}%,ubicacion.ilike.%${q}%`)
     const { data, error } = await query
     if (error) setError(error.message)
     else setTrabajos(data ?? [])
     setLoading(false)
   }, [estadoKey])
 
-  useEffect(() => { fetchTrabajos() }, [fetchTrabajos])
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    debounceRef.current = setTimeout(fetchTrabajos, filtro ? 400 : 0)
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
+  }, [fetchTrabajos, filtro])
 
   const createTrabajo = async (descripcion: string, ubicacion: string, fecha_ejecucion: string) => {
     const { data: { user } } = await supabase.auth.getUser()

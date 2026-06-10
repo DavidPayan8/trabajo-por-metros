@@ -26,7 +26,8 @@ const TOTAL_LABEL: Record<Trabajo['estado'], string> = {
 
 export function Trabajos() {
   const navigate = useNavigate()
-  const { trabajos, loading, createTrabajo } = useTrabajos(['abierto', 'pendiente_cobro'])
+  const [filtro, setFiltro] = useState('')
+  const { trabajos, loading, createTrabajo } = useTrabajos(['abierto', 'pendiente_cobro'], filtro)
   const [showForm, setShowForm] = useState(false)
   const [showLocationPicker, setShowLocationPicker] = useState(false)
   const [descripcion, setDescripcion] = useState('')
@@ -73,6 +74,13 @@ export function Trabajos() {
 
       <div className="px-margin-main pt-section-gap pb-4 flex flex-col gap-section-gap">
         <h2 className="text-display text-charcoal-text leading-tight">Actividad</h2>
+
+        <Input
+          placeholder="Buscar por descripción o ubicación..."
+          value={filtro}
+          onChange={(e) => setFiltro(e.target.value)}
+          icon="search"
+        />
 
         {/* Nuevo trabajo form */}
         {showForm && (
