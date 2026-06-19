@@ -15,6 +15,8 @@ export interface Estadisticas {
   ticketMedio: number
   desviacionMedia: number
   diasMediosCobro: number | null
+  totalPendiente: number
+  numPendientes: number
   porMes: MesData[]
 }
 
@@ -25,6 +27,15 @@ export function useEstadisticas() {
   useEffect(() => {
     async function fetch() {
       setLoading(true)
+
+      const { data: pendientesData } = await supabase
+        .from('trabajo')
+        .select('total_calculado')
+        .eq('estado', 'pendiente_cobro')
+
+      const totalPendiente = (pendientesData ?? []).reduce((s, t) => s + Number(t.total_calculado), 0)
+      const numPendientes = (pendientesData ?? []).length
+
       const { data } = await supabase
         .from('trabajo')
         .select('total_cobrado, total_calculado, fecha_cobro, fecha_ejecucion')
@@ -33,7 +44,10 @@ export function useEstadisticas() {
         .order('fecha_cobro', { ascending: true })
 
       if (!data || data.length === 0) {
-        setStats({ totalCobrado: 0, totalCalculado: 0, numTrabajos: 0, ticketMedio: 0, desviacionMedia: 0, diasMediosCobro: null, porMes: [] })
+        setStats({
+          totalCobrado: 0, totalCalculado: 0, numTrabajos: 0, ticketMedio: 0,
+          desviacionMedia: 0, diasMediosCobro: null, totalPendiente, numPendientes, porMes: [],
+        })
         setLoading(false)
         return
       }
@@ -76,7 +90,10 @@ export function useEstadisticas() {
         ? Math.round(diasList.reduce((s, d) => s + d, 0) / diasList.length)
         : null
 
-      setStats({ totalCobrado, totalCalculado, numTrabajos, ticketMedio, desviacionMedia, diasMediosCobro, porMes })
+      setStats({
+        totalCobrado, totalCalculado, numTrabajos, ticketMedio, desviacionMedia,
+        diasMediosCobro, totalPendiente, numPendientes, porMes,
+      })
       setLoading(false)
     }
 

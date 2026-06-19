@@ -38,6 +38,7 @@ export function Trabajos() {
 
   const abiertos = trabajos.filter((t) => t.estado === 'abierto')
   const pendientes = trabajos.filter((t) => t.estado === 'pendiente_cobro')
+  const totalPendiente = pendientes.reduce((sum, t) => sum + Number(t.total_calculado), 0)
 
   const handleCreate = async () => {
     if (!descripcion.trim()) { setError('La descripción es obligatoria.'); return }
@@ -81,6 +82,22 @@ export function Trabajos() {
           onChange={(e) => setFiltro(e.target.value)}
           icon="search"
         />
+
+        {pendientes.length > 0 && (
+          <div className="bg-ios-orange/10 border border-ios-orange/20 rounded-2xl p-4 flex justify-between items-center">
+            <div>
+              <p className="text-label-lg text-ios-orange uppercase tracking-wider">
+                Pendiente de cobro{filtro ? ' (filtrado)' : ''}
+              </p>
+              <p className="text-numeric-data text-charcoal-text">{totalPendiente.toFixed(2)} $</p>
+              <p className="text-label-md text-ios-gray">{pendientes.length} trabajo{pendientes.length !== 1 ? 's' : ''}</p>
+            </div>
+            <span className="material-symbols-outlined text-ios-orange text-[32px]"
+              style={{ fontVariationSettings: "'FILL' 1" }}>
+              hourglass_top
+            </span>
+          </div>
+        )}
 
         {/* Nuevo trabajo form */}
         {showForm && (

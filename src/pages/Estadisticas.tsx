@@ -51,6 +51,22 @@ export function Estadisticas() {
       <div className="px-margin-main pt-section-gap pb-8 flex flex-col gap-section-gap">
         <h2 className="text-display text-charcoal-text leading-tight">Resumen</h2>
 
+        {!loading && stats && stats.numPendientes > 0 && (
+          <div className="bg-ios-orange/10 border border-ios-orange/20 rounded-2xl p-4 flex justify-between items-center">
+            <div>
+              <p className="text-label-lg text-ios-orange uppercase tracking-wider">Pendiente de cobro</p>
+              <p className="text-numeric-data text-charcoal-text">{stats.totalPendiente.toFixed(2)} $</p>
+              <p className="text-label-md text-ios-gray">
+                {stats.numPendientes} trabajo{stats.numPendientes !== 1 ? 's' : ''}
+              </p>
+            </div>
+            <span className="material-symbols-outlined text-ios-orange text-[32px]"
+              style={{ fontVariationSettings: "'FILL' 1" }}>
+              hourglass_top
+            </span>
+          </div>
+        )}
+
         {loading ? (
           <p className="text-body-md text-ios-gray text-center py-12">Cargando...</p>
         ) : !stats || stats.numTrabajos === 0 ? (
