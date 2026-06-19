@@ -28,20 +28,18 @@ export function useEstadisticas() {
     async function fetch() {
       setLoading(true)
 
-      const { data: pendientesData } = await supabase
-        .from('trabajo')
-        .select('total_calculado')
-        .eq('estado', 'pendiente_cobro')
+      const [{ data: pendientesData }, { data }] = await Promise.all([
+        supabase.from('trabajo').select('total_calculado').eq('estado', 'pendiente_cobro'),
+        supabase
+          .from('trabajo')
+          .select('total_cobrado, total_calculado, fecha_cobro, fecha_ejecucion')
+          .eq('estado', 'cobrado')
+          .not('total_cobrado', 'is', null)
+          .order('fecha_cobro', { ascending: true }),
+      ])
 
       const totalPendiente = (pendientesData ?? []).reduce((s, t) => s + Number(t.total_calculado), 0)
       const numPendientes = (pendientesData ?? []).length
-
-      const { data } = await supabase
-        .from('trabajo')
-        .select('total_cobrado, total_calculado, fecha_cobro, fecha_ejecucion')
-        .eq('estado', 'cobrado')
-        .not('total_cobrado', 'is', null)
-        .order('fecha_cobro', { ascending: true })
 
       if (!data || data.length === 0) {
         setStats({

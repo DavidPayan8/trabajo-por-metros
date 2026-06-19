@@ -6,11 +6,12 @@ export function useHistorial(filtro: string, desde: string, hasta: string) {
   const [trabajos, setTrabajos] = useState<Trabajo[]>([])
   const [loading, setLoading] = useState(true)
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const isFirstRun = useRef(true)
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
 
-    debounceRef.current = setTimeout(async () => {
+    const fetch = async () => {
       setLoading(true)
       let query = supabase
         .from('trabajo')
@@ -33,7 +34,14 @@ export function useHistorial(filtro: string, desde: string, hasta: string) {
       const { data, error } = await query
       if (!error) setTrabajos(data ?? [])
       setLoading(false)
-    }, 400)
+    }
+
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      fetch()
+    } else {
+      debounceRef.current = setTimeout(fetch, 400)
+    }
 
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current)
